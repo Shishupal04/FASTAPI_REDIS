@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Backup & Restore{% endblock %}
+{% block page_title %}Database Backup & Restore{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header bg-white fw-semibold"><i class="bi bi-cloud-upload me-1"></i> Create Backup</div>
+      <div class="card-body text-center py-4">
+        <i class="bi bi-database-check fs-1 text-success mb-3 d-block"></i>
+        <p class="text-muted">Creates a timestamped copy of the database in the <code>backups/</code> folder.</p>
+        <a href="/backup" class="btn btn-success">
+          <i class="bi bi-download me-1"></i> Create Backup Now
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header bg-white fw-semibold"><i class="bi bi-arrow-counterclockwise me-1"></i> Restore from Backup</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead><tr><th>Backup File</th><th>Action</th></tr></thead>
+          <tbody>
+            {% for f in files %}
+            <tr>
+              <td><i class="bi bi-file-earmark-binary me-1 text-muted"></i>{{ f }}</td>
+              <td>
+                <a href="/restore/{{ f }}"
+                   onclick="return confirm('Restore this backup? Current data will be overwritten.')"
+                   class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-arrow-counterclockwise me-1"></i>Restore
+                </a>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="2" class="text-center text-muted py-4">No backups found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

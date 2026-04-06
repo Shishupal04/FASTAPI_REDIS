@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Employees{% endblock %}
+{% block page_title %}Employee Management{% endblock %}
+
+{% block content %}
+<!-- ADD EMPLOYEE FORM -->
+<div class="card mb-4">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-person-plus me-1"></i> Add New Employee
+  </div>
+  <div class="card-body">
+    <form method="POST" action="/add_employee">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Company</label>
+          <select name="company_id" class="form-select" required>
+            {% for c in companies %}
+            <option value="{{ c[0] }}">{{ c[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Emp Code</label>
+          <input type="text" name="emp_code" class="form-control" placeholder="EMP001" required/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Full Name</label>
+          <input type="text" name="name" class="form-control" placeholder="Full Name" required/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Department</label>
+          <input type="text" name="department" class="form-control" placeholder="IT / HR / Finance"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Designation</label>
+          <input type="text" name="designation" class="form-control" placeholder="Manager / Developer"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Date of Joining</label>
+          <input type="date" name="doj" class="form-control"/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Basic (₹)</label>
+          <input type="number" name="basic" class="form-control" placeholder="0" required/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">HRA (₹)</label>
+          <input type="number" name="hra" class="form-control" placeholder="0"/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Allowance (₹)</label>
+          <input type="number" name="allowance" class="form-control" placeholder="0"/>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Bank Account No.</label>
+          <input type="text" name="bank" class="form-control" placeholder="Account Number"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">IFSC Code</label>
+          <input type="text" name="ifsc" class="form-control" placeholder="SBIN0001234"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">PAN Number</label>
+          <input type="text" name="pan" class="form-control" placeholder="ABCDE1234F"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">UAN Number</label>
+          <input type="text" name="uan" class="form-control" placeholder="100XXXXXXXXX"/>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i> Add Employee
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- EMPLOYEE LIST -->
+<div class="card">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-people me-1"></i> All Employees
+    <span class="badge bg-primary ms-2">{{ employees|length }}</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>#</th><th>Code</th><th>Name</th><th>Department</th>
+          <th>Designation</th><th>DOJ</th>
+          <th>Basic</th><th>HRA</th><th>Allowance</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in employees %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td><span class="badge bg-secondary">{{ e[2] }}</span></td>
+          <td class="fw-semibold">{{ e[3] }}</td>
+          <td>{{ e[4] }}</td>
+          <td>{{ e[5] }}</td>
+          <td>{{ e[6] }}</td>
+          <td>₹{{ "{:,.0f}".format(e[7] or 0) }}</td>
+          <td>₹{{ "{:,.0f}".format(e[8] or 0) }}</td>
+          <td>₹{{ "{:,.0f}".format(e[9] or 0) }}</td>
+          <td>
+            <a href="/salary_history/{{ e[0] }}" class="btn btn-sm btn-outline-info">
+              <i class="bi bi-clock-history"></i>
+            </a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="10" class="text-center text-muted py-4">No employees found. Add one above.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
