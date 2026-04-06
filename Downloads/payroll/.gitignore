@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+exports/
+backups/
+data/
+*.db
+*.xlsx
+*.pdf
+.DS_Store

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports & Exports{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card h-100 text-center p-4">
+      <i class="bi bi-journal-text fs-1 text-primary mb-3"></i>
+      <h6 class="fw-bold">Salary Register</h6>
+      <p class="text-muted small">Complete month-wise salary details for all employees.</p>
+      <div class="d-flex gap-2 justify-content-center mt-auto">
+        <a href="/salary_register"        class="btn btn-outline-primary btn-sm"><i class="bi bi-eye me-1"></i>View</a>
+        <a href="/export_salary_register" class="btn btn-success btn-sm"><i class="bi bi-download me-1"></i>Excel</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 text-center p-4">
+      <i class="bi bi-bank fs-1 text-success mb-3"></i>
+      <h6 class="fw-bold">Bank Transfer Sheet</h6>
+      <p class="text-muted small">Employee bank details and net salary for bulk transfer.</p>
+      <div class="d-flex gap-2 justify-content-center mt-auto">
+        <a href="/bank_sheet"        class="btn btn-outline-primary btn-sm"><i class="bi bi-eye me-1"></i>View</a>
+        <a href="/export_bank_sheet" class="btn btn-success btn-sm"><i class="bi bi-download me-1"></i>Excel</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 text-center p-4">
+      <i class="bi bi-shield-check fs-1 text-warning mb-3"></i>
+      <h6 class="fw-bold">Statutory Report</h6>
+      <p class="text-muted small">PF and ESI contribution report for compliance filing.</p>
+      <div class="d-flex gap-2 justify-content-center mt-auto">
+        <a href="/statutory_report" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye me-1"></i>View</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

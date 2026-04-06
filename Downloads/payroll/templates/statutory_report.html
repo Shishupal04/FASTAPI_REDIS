@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Statutory Report{% endblock %}
+{% block page_title %}Statutory Report (PF & ESI){% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-shield-check me-1"></i> PF & ESI Contributions
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>#</th><th>Employee</th>
+          <th>Employee PF (₹)</th><th>Employer PF (₹)</th>
+          <th>Employee ESI (₹)</th><th>Employer ESI (₹)</th>
+          <th>Total PF (₹)</th><th>Total ESI (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in data %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="fw-semibold">{{ r[0] }}</td>
+          <td>₹{{ "{:,.0f}".format(r[1]) }}</td>
+          <td>₹{{ "{:,.0f}".format(r[1]) }}</td>
+          <td>₹{{ "{:,.2f}".format(r[2]) }}</td>
+          <td>₹{{ "{:,.2f}".format(r[2] * 1.75 / 0.75) }}</td>
+          <td class="fw-semibold">₹{{ "{:,.0f}".format(r[1] * 2) }}</td>
+          <td class="fw-semibold">₹{{ "{:,.2f}".format(r[2] * (1 + 1.75/0.75)) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted py-4">No records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer bg-white small text-muted">
+    Employee PF = 12% of Basic &nbsp;|&nbsp; Employer PF = 12% of Basic &nbsp;|&nbsp;
+    Employee ESI = 0.75% of Gross &nbsp;|&nbsp; Employer ESI = 3.25% of Gross
+  </div>
+</div>
+{% endblock %}
