@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Salary Register{% endblock %}
+{% block page_title %}Salary Register{% endblock %}
+
+{% block content %}
+<div class="mb-3 d-flex justify-content-end">
+  <a href="/export_salary_register" class="btn btn-success">
+    <i class="bi bi-file-earmark-excel me-1"></i> Export to Excel
+  </a>
+</div>
+<div class="card">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-journal-text me-1"></i> Salary Register
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>#</th><th>Employee</th><th>Month</th>
+          <th>Gross (₹)</th><th>PF (₹)</th><th>ESI (₹)</th>
+          <th>PT (₹)</th><th>TDS (₹)</th><th>Net (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in data %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="fw-semibold">{{ r[0] }}</td>
+          <td>{{ r[1] }}</td>
+          <td>{{ "{:,.0f}".format(r[2]) }}</td>
+          <td>{{ "{:,.0f}".format(r[3]) }}</td>
+          <td>{{ "{:,.0f}".format(r[4]) }}</td>
+          <td>{{ "{:,.0f}".format(r[5]) }}</td>
+          <td>{{ "{:,.0f}".format(r[6]) }}</td>
+          <td class="fw-bold text-success">{{ "{:,.0f}".format(r[7]) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" class="text-center text-muted py-4">No payroll records found.</td></tr>
+        {% endfor %}
+      </tbody>
+      {% if data %}
+      <tfoot class="table-light fw-bold">
+        <tr>
+          <td colspan="3">Total</td>
+          <td>₹{{ "{:,.0f}".format(data|sum(attribute=2)) }}</td>
+          <td>₹{{ "{:,.0f}".format(data|sum(attribute=3)) }}</td>
+          <td>₹{{ "{:,.0f}".format(data|sum(attribute=4)) }}</td>
+          <td>₹{{ "{:,.0f}".format(data|sum(attribute=5)) }}</td>
+          <td>₹{{ "{:,.0f}".format(data|sum(attribute=6)) }}</td>
+          <td class="text-success">₹{{ "{:,.0f}".format(data|sum(attribute=7)) }}</td>
+        </tr>
+      </tfoot>
+      {% endif %}
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Attendance{% endblock %}
+{% block page_title %}Attendance Management{% endblock %}
+
+{% block content %}
+<div class="card mb-4">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-calendar-check me-1"></i> Mark Attendance
+  </div>
+  <div class="card-body">
+    <form method="POST" action="/add_attendance">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Employee</label>
+          <select name="emp_id" class="form-select" required>
+            <option value="">-- Select Employee --</option>
+            {% for e in employees %}
+            <option value="{{ e[0] }}">{{ e[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Month (YYYY-MM)</label>
+          <input type="month" name="month" class="form-control" required/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Working Days</label>
+          <input type="number" name="working" class="form-control" value="26" min="1" max="31" required/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Present Days</label>
+          <input type="number" name="present" class="form-control" value="0" min="0" max="31" required/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">LOP Days</label>
+          <input type="number" name="lop" class="form-control" value="0" min="0" max="31"/>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save me-1"></i> Save Attendance
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- RECORDS -->
+<div class="card">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-table me-1"></i> Attendance Records
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr><th>#</th><th>Employee</th><th>Month</th><th>Working</th><th>Present</th><th>LOP</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="fw-semibold">{{ r[6] }}</td>
+          <td>{{ r[2] }}</td>
+          <td>{{ r[3] }}</td>
+          <td>{{ r[4] }}</td>
+          <td>
+            {% if r[5] > 0 %}
+              <span class="badge bg-danger">{{ r[5] }} days</span>
+            {% else %}
+              <span class="badge bg-success">0</span>
+            {% endif %}
+          </td>
+          <td>
+            {% set pct = (r[4] / r[3] * 100) if r[3] > 0 else 0 %}
+            <div class="progress" style="height:6px;width:80px">
+              <div class="progress-bar {% if pct >= 90 %}bg-success{% elif pct >= 75 %}bg-warning{% else %}bg-danger{% endif %}"
+                   style="width:{{ pct }}%"></div>
+            </div>
+            <small class="text-muted">{{ "%.0f"|format(pct) }}%</small>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted py-4">No records yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

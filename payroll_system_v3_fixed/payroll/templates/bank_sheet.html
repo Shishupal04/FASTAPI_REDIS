@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Bank Sheet{% endblock %}
+{% block page_title %}Bank Transfer Sheet{% endblock %}
+
+{% block content %}
+<div class="mb-3 d-flex justify-content-end">
+  <a href="/export_bank_sheet" class="btn btn-success">
+    <i class="bi bi-file-earmark-excel me-1"></i> Export to Excel
+  </a>
+</div>
+<div class="card">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-bank me-1"></i> Bank Transfer Sheet
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr><th>#</th><th>Employee</th><th>Bank Account</th><th>IFSC Code</th><th>Net Amount (₹)</th></tr>
+      </thead>
+      <tbody>
+        {% for r in data %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="fw-semibold">{{ r[0] }}</td>
+          <td><code>{{ r[1] }}</code></td>
+          <td><code>{{ r[2] }}</code></td>
+          <td class="fw-bold text-success">₹{{ "{:,.0f}".format(r[3]) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted py-4">No records found.</td></tr>
+        {% endfor %}
+      </tbody>
+      {% if data %}
+      <tfoot class="table-light fw-bold">
+        <tr>
+          <td colspan="4">Total Transfer Amount</td>
+          <td class="text-success">₹{{ "{:,.0f}".format(data|sum(attribute=3)) }}</td>
+        </tr>
+      </tfoot>
+      {% endif %}
+    </table>
+  </div>
+</div>
+{% endblock %}

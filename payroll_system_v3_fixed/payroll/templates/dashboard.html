@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<p class="text-muted mb-4"><i class="bi bi-calendar3 me-1"></i>{{ today }}</p>
+
+<!-- STAT CARDS -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card stat-card border-primary p-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <div class="text-muted small">Total Employees</div>
+          <div class="fs-2 fw-bold text-primary">{{ emp_count }}</div>
+        </div>
+        <i class="bi bi-people-fill fs-1 text-primary opacity-25"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card stat-card border-success p-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <div class="text-muted small">Total Payout (All Time)</div>
+          <div class="fs-2 fw-bold text-success">₹{{ "{:,.0f}".format(payout) }}</div>
+        </div>
+        <i class="bi bi-currency-rupee fs-1 text-success opacity-25"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card stat-card border-warning p-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <div class="text-muted small">Payrolls Processed</div>
+          <div class="fs-2 fw-bold text-warning">{{ processed }}</div>
+        </div>
+        <i class="bi bi-receipt fs-1 text-warning opacity-25"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="row g-3 mb-4">
+  <div class="col-12">
+    <div class="card p-3">
+      <h6 class="fw-bold mb-3">Quick Actions</h6>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="/employees"      class="btn btn-outline-primary btn-sm"><i class="bi bi-person-plus me-1"></i>Add Employee</a>
+        <a href="/attendance"     class="btn btn-outline-success btn-sm"><i class="bi bi-calendar-check me-1"></i>Mark Attendance</a>
+        <a href="/payroll"        class="btn btn-outline-warning btn-sm"><i class="bi bi-cash me-1"></i>Process Payroll</a>
+        <a href="/salary_register" class="btn btn-outline-info btn-sm"><i class="bi bi-download me-1"></i>Salary Register</a>
+        <a href="/bank_sheet"     class="btn btn-outline-secondary btn-sm"><i class="bi bi-bank me-1"></i>Bank Sheet</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECENT EMPLOYEES -->
+<div class="card">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-clock-history me-1"></i> Recently Added Employees
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Emp Code</th><th>Name</th><th>Department</th>
+          <th>Designation</th><th>Basic (₹)</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in employees %}
+        <tr>
+          <td>{{ e[2] }}</td>
+          <td class="fw-semibold">{{ e[3] }}</td>
+          <td>{{ e[4] }}</td>
+          <td>{{ e[5] }}</td>
+          <td>{{ "{:,.0f}".format(e[7]) }}</td>
+          <td><a href="/salary_history/{{ e[0] }}" class="btn btn-xs btn-outline-secondary btn-sm">History</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted py-3">No employees added yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

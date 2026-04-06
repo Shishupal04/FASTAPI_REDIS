@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Companies{% endblock %}
+{% block page_title %}Company Management{% endblock %}
+
+{% block content %}
+<div class="card mb-4">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-plus-circle me-1"></i> Add Company
+  </div>
+  <div class="card-body">
+    <form method="POST" action="/add_company">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label">Company Name</label>
+          <input type="text" name="name" class="form-control" required/>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Address</label>
+          <input type="text" name="address" class="form-control"/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">PF Number</label>
+          <input type="text" name="pf" class="form-control"/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">ESI Number</label>
+          <input type="text" name="esi" class="form-control"/>
+        </div>
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-primary w-100">Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header bg-white fw-semibold"><i class="bi bi-briefcase me-1"></i> Companies</div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Address</th><th>PF Number</th><th>ESI Number</th></tr>
+      </thead>
+      <tbody>
+        {% for c in companies %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="fw-semibold">{{ c[1] }}</td>
+          <td>{{ c[2] }}</td>
+          <td><code>{{ c[3] }}</code></td>
+          <td><code>{{ c[4] }}</code></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted py-4">No companies found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
